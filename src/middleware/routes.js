@@ -37,8 +37,17 @@ class Routes {
      * @return {Promise}
      */
     async register(server) {
-        for (let router of server.routers)
-            server.express.use('/', router);
+        let routers = [];
+        for (let _module of this._modules.values()) {
+            if (typeof _module.routers !== 'function')
+                continue;
+            for (let router of _module.routers())
+                routers.push(router);
+        }
+
+        routers.sort((a, b) => b.priority - a.priority);
+        for (let router of routers)
+            server.express.use('/', router.router);
     }
 }
 
