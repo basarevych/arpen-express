@@ -1,6 +1,6 @@
 {
   "name": "arpen-express",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "author": "Ross Basarevych <basarevych@gmail.com>",
   "description": "ARPEN",
@@ -12,7 +12,6 @@
     "body-parser": "~1.18.1",
     "cookie-parser": "~1.4.3",
     "debug": "~3.0.1",
-    "express": "^4.16.1",
     "morgan": "~1.8.2",
     "nerror": "~1.0.0",
     "pug": "~2.0.0-rc.4",
