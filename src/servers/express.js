@@ -186,24 +186,51 @@ class Express {
         if (this._config.get(`servers.${name}.enable`) === false)
             return;
 
-        if (this.server && this.listening) {
-            this.server.close();
-            return new Promise(resolve => {
-                this.server.once('close', () => {
-                    this.server = null;
-                    this.listening = false;
+        if (!this.server || !this.listening)
+            return;
 
-                    let port = this._normalizePort(this._config.get(`servers.${this.name}.port`));
-                    this._logger.info(
-                        this.name + ': Server is no longer listening on ' +
-                        (typeof port === 'string'
-                            ? port
-                            : this._config.get(`servers.${this.name}.host`) + ':' + port)
-                    );
-                    resolve();
-                });
+        this.server.close();
+        await new Promise(resolve => {
+            this.server.once('close', () => {
+                this.server = null;
+                this.listening = false;
+
+                let port = this._normalizePort(this._config.get(`servers.${this.name}.port`));
+                this._logger.info(
+                    this.name + ': Server is no longer listening on ' +
+                    (typeof port === 'string'
+                        ? port
+                        : this._config.get(`servers.${this.name}.host`) + ':' + port)
+                );
+                resolve();
             });
-        }
+        });
+
+        let middlewareConfig = this._config.get(`servers.${name}.middleware`);
+        if (!Array.isArray(middlewareConfig) || !this._app.has('express.middleware'))
+            return;
+
+        this._logger.debug('express', `${this.name}: Unloading middleware`);
+        let middleware = this._app.get('express.middleware');
+        return middlewareConfig.reduce(
+            async (prev, cur) => {
+                await prev;
+
+                if (!middleware.has(cur))
+                    return;
+
+                let obj = middleware.get(cur);
+                if (typeof obj.unregister !== 'function')
+                    return;
+
+                this._logger.debug('express', `${this.name}: Unregistering middleware ${cur}`);
+                let result = obj.unregister(this);
+                if (result === null || typeof result !== 'object' || typeof result.then !== 'function')
+                    throw new Error(`Middleware '${cur}' unregister() did not return a Promise`);
+                return result;
+            },
+            Promise.resolve()
+        );
     }
 
     /**
