@@ -26,9 +26,10 @@ class ExpressSession {
         this._tokenLength = 64;
 
         let sessionRepo = this._config.get(`servers.${server}.session.session_repository`);
-        let userRepo = this._config.get(`servers.${server}.session.user_repository`);
+        if (sessionRepo)
+            this._sessionRepo = this._app.get(sessionRepo);
 
-        this._sessionRepo = this._app.get(sessionRepo);
+        let userRepo = this._config.get(`servers.${server}.session.user_repository`);
         if (userRepo)
             this._userRepo = this._app.get(userRepo);
     }
@@ -71,6 +72,14 @@ class ExpressSession {
     }
 
     /**
+     * Expiration timeout, seconds
+     * @type {number}
+     */
+    get expirationTimeout() {
+        return this._config.get(`servers.${this.server}.session.expire_timeout`) || 0;
+    }
+
+    /**
      * Token variable name (cookie)
      * @type {string}
      */
@@ -101,7 +110,15 @@ class ExpressSession {
      * @return {Promise}                            Resolves to session model
      */
     async create(user, req) {
-        let session = this._sessionRepo.getModel();
+        let model = this._config.get(`servers.${this.server}.session.model`);
+        let session;
+        if (model)
+            session = this._app.get(model);
+        else if (this._sessionRepo)
+            session = this._sessionRepo.getModel();
+        else
+            throw new Error('No model for the bridge');
+
         session.token = this._util.getRandomString(this.tokenLength, { lower: true, upper: true, digits: true, special: false });
         session.payload = {};
         session.info = this._getInfo(req);
@@ -117,6 +134,9 @@ class ExpressSession {
      * @return {Promise}                            Resolves to session model or null
      */
     async find(token) {
+        if (!this._sessionRepo)
+            return null;
+
         let sessions = await this._sessionRepo.findByToken(token);
         let session = sessions.length && sessions[0];
         if (!session)
@@ -134,21 +154,32 @@ class ExpressSession {
      * Save session model
      * @param {SessionModel} session                Session model
      * @param {*} [req]                             Express request object
-     * @return {Promise}                            Resolves to session model
+     * @return {Promise}
      */
     async save(session, req) {
         session.info = this._getInfo(req);
         session.userId = session.user ? session.user.id : null;
-        await this._sessionRepo.save(session);
+        if (this._sessionRepo)
+            await this._sessionRepo.save(session);
     }
 
     /**
      * Delete session model
      * @param {SessionModel} session                Session model
-     * @return {Promise}                            Resolves to session model
+     * @return {Promise}
      */
     async destroy(session) {
-        await this._sessionRepo.delete(session);
+        if (this._sessionRepo)
+            await this._sessionRepo.delete(session);
+    }
+
+    /**
+     * Delete expired session models
+     * @return {Promise}
+     */
+    async expire() {
+        if (this._sessionRepo)
+            await this._sessionRepo.deleteExpired(this.expirationTimeout);
     }
 
     /**

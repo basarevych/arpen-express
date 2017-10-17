@@ -51,7 +51,7 @@ class Session {
         await this._session.addBridge(server.name, bridge);
 
         server.express.use(async (req, res, next) => {
-            req.session = res.locals.session = null;
+            req.session = res.locals.session = {};
             req.user = res.locals.user = null;
 
             let session;
@@ -63,7 +63,10 @@ class Session {
                 }
                 if (!session)
                     session = await this._session.create(server.name, null, req);
-                req.session = res.locals.session = (session && session.payload) || null;
+                if (session) {
+                    Object.assign(req.session, session.payload);
+                    res.locals.session = req.session;
+                }
                 req.user = res.locals.user = (session && session.user) || null;
             } catch (error) {
                 this._logger.error(error);
@@ -72,13 +75,13 @@ class Session {
             let origEnd = res.end;
             res.end = async (...args) => {
                 if (session) {
+                    session.payload = req.session;
                     session.user = req.user;
 
                     try {
                         await this._session.update(server.name, session, req);
                         if (this._session.isValid(server.name, session) && bridge.tokenVar) {
                             let token = await this._session.encodeJwt(server.name, session);
-                            console.log(token);
                             res.cookie(bridge.tokenVar, token, {
                                 maxAge: 365 * 24 * 60 * 60 * 1000,
                                 path: '/',
