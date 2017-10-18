@@ -6,12 +6,21 @@ const http = require('http');
 const https = require('https');
 const path = require('path');
 const express = require('express');
+const uuid = require('uuid');
+const EventEmitter = require('events');
 const NError = require('nerror');
+
+let io;
+try {
+    io = require('socket.io');
+} catch (error) {
+    // do nothing
+}
 
 /**
  * Express-based server class
  */
-class Express {
+class Express extends EventEmitter {
     /**
      * Create the service
      * @param {App} app                     Application
@@ -20,11 +29,13 @@ class Express {
      * @param {Logger} logger               Logger service
      */
     constructor(app, config, filer, logger) {
+        super();
         this.name = null;
         this.express = null;
         this.routers = [];
         this.server = null;
         this.listening = false;
+        this.socketEvents = [];
 
         this._app = app;
         this._config = config;
@@ -164,7 +175,21 @@ class Express {
         this._logger.debug('express', `${this.name}: Starting the server`);
         let port = this._normalizePort(this._config.get(`servers.${name}.port`));
         if (this.server && !this.listening) {
-            this.server.listen(port, typeof port === 'string' ? undefined : this._config.get(`servers.${name}.host`));
+            let listen = this.server.listen(port, typeof port === 'string' ? undefined : this._config.get(`servers.${name}.host`));
+            if (io) {
+                this.io = io.listen(listen);
+                this.io.on('connection', socket => {
+                    let id = uuid.v1();
+                    for (let event of [ 'disconnect' ].concat(this.socketEvents)) {
+                        socket.on(event, (...args) => {
+                            args.unshift(id);
+                            this.emit(`socket_${event}`, ...args);
+                        });
+                    }
+                    this.emit(`io_connection`, id, socket);
+                });
+            }
+
             return new Promise(resolve => {
                 this.server.once('listening', () => {
                     this.listening = true;

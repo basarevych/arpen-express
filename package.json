@@ -15,11 +15,13 @@
     "morgan": "~1.9.0",
     "nerror": "~1.0.0",
     "pug": "~2.0.0-rc.4",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "uuid": "~3.1.0"
   },
   "peerDependencies": {
     "arpen": "^0.2.17",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "socket.io": "^2.0.3"
   },
   "devDependencies": {
     "eslint": "~4.8.0",
