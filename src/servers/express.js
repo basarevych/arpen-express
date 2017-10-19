@@ -35,7 +35,9 @@ class Express extends EventEmitter {
         this.routers = [];
         this.server = null;
         this.listening = false;
-        this.socketEvents = [];
+
+        this.sockets = new Map();
+        this.socketEvents = new Set();
 
         this._app = app;
         this._config = config;
@@ -180,13 +182,20 @@ class Express extends EventEmitter {
                 this.io = io.listen(listen);
                 this.io.on('connection', socket => {
                     let id = uuid.v1();
-                    for (let event of [ 'disconnect' ].concat(this.socketEvents)) {
-                        socket.on(event, (...args) => {
-                            args.unshift(id);
-                            this.emit(`socket_${event}`, ...args);
-                        });
+                    let info = { socket, handlers: new Map() };
+                    this.sockets.set(id, info);
+
+                    for (let event of this.socketEvents) {
+                        let handler = this._getSocketEventHandler(event, id);
+                        info.socket.on(event, handler);
+                        info.handlers.set(event, handler);
                     }
-                    this.emit(`io_connection`, id, socket);
+
+                    socket.once('disconnect', () => {
+                        this.sockets.delete(id);
+                    });
+
+                    this.emit(`socket_connection`, id, socket);
                 });
             }
 
@@ -214,6 +223,8 @@ class Express extends EventEmitter {
         if (!this.server || !this.listening)
             return;
 
+        this.sockets.clear();
+        this.io = null;
         this.server.close();
         await new Promise(resolve => {
             this.server.once('close', () => {
@@ -256,6 +267,49 @@ class Express extends EventEmitter {
             },
             Promise.resolve()
         );
+    }
+
+    /**
+     * Install event handler at the end of the list
+     * @param {string} event            Event name
+     * @param {function} handler        Event handler
+     */
+    on(event, handler) {
+        super.on(event, handler);
+        if (event.startsWith('socket_'))
+            this._installSocketEvent(event);
+    }
+
+    /**
+     * Install event handler at the beginning of the list
+     * @param {string} event            Event name
+     * @param {function} handler        Event handler
+     */
+    prependListener(event, handler) {
+        super.prependListener(event, handler);
+        if (event.startsWith('socket_'))
+            this._installSocketEvent(event);
+    }
+
+    /**
+     * Remove event handler
+     * @param {string} event            Event name
+     * @param {function} handler        Event handler
+     */
+    removeListener(event, handler) {
+        super.removeListener(event, handler);
+        if (event.startsWith('socket_') && !this.listenerCount(event))
+            this._removeSocketEvent(event);
+    }
+
+    /**
+     * Remove all event handlers
+     * @param {string} event            Event name
+     */
+    removeAllListeners(event) {
+        super.removeAllListeners(event);
+        if (event.startsWith('socket_'))
+            this._removeSocketEvent(event);
     }
 
     /**
@@ -309,6 +363,52 @@ class Express extends EventEmitter {
         if (port >= 0)
             return port;
         return false;
+    }
+
+    /**
+     * Web socket event handler
+     * @param {string} event                Event name
+     * @param {string} id                   Socket ID
+     */
+    _getSocketEventHandler(event, id) {
+        return (...args) => {
+            args.unshift(id);
+            this.emit(`socket_${event}`, ...args);
+        };
+    }
+
+    /**
+     * Install re-emitting event handlers for socket event
+     * @param {string} event                Event name starting with "socket_"
+     */
+    _installSocketEvent(event) {
+        let socketEvent = event.split('_').slice(1).join('_');
+        this.socketEvents.add(socketEvent);
+        for (let [id, info] of this.sockets) {
+            if (info.socket.listenerCount(socketEvent))
+                continue;
+
+            let handler = this._getSocketEventHandler(socketEvent, id);
+            info.socket.on(socketEvent, handler);
+            info.handlers.set(socketEvent, handler);
+        }
+    }
+
+    /**
+     * Remove re-emitting event handlers for socket event
+     * @param {string} event                Event name starting with "socket_"
+     */
+    _removeSocketEvent(event) {
+        let socketEvent = event.split('_').slice(1).join('_');
+        this.socketEvents.delete(socketEvent);
+        for (let info of this.sockets.values()) {
+            let handler = info.handlers.get(socketEvent);
+            if (!handler)
+                continue;
+
+            info.socket.removeListener(socketEvent, handler);
+            info.handlers.delete(socketEvent);
+        }
     }
 }
 
