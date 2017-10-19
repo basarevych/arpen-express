@@ -80,6 +80,14 @@ class ExpressSession {
     }
 
     /**
+     * Expiration scan interval, seconds
+     * @type {number}
+     */
+    get expirationInterval() {
+        return this._config.get(`servers.${this.server}.session.expire_interval`) || 0;
+    }
+
+    /**
      * Token variable name (cookie)
      * @type {string}
      */
@@ -178,7 +186,7 @@ class ExpressSession {
      * @return {Promise}
      */
     async expire() {
-        if (this._sessionRepo)
+        if (this._sessionRepo && this._sessionRepo.deleteExpired)
             await this._sessionRepo.deleteExpired(this.expirationTimeout);
     }
 
