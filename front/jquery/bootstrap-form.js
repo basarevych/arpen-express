@@ -157,12 +157,10 @@ export class Form {
                     {
                         success: data => {
                             this.constructor.reset(el);
-                            if (!data.success) {
-                                this.constructor.unlock(el);
-                                if (this.timestamp <= timestamp) {
-                                    this.update(el, data, true);
-                                    this.checkForm(el);
-                                }
+                            this.constructor.unlock(el);
+                            if (this.timestamp <= timestamp && data.form) {
+                                this.update(el, data, true);
+                                this.checkForm(el);
                             }
                             if (success)
                                 success(data);
