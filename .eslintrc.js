@@ -4,7 +4,9 @@ module.exports = {
         "ecmaVersion": 2017,
     },
     "env": {
-        "node": true
+        "node": true,
+        "browser": true,
+        "jquery": true,
     },
     "rules": {
         "indent": "off",
@@ -13,6 +15,6 @@ module.exports = {
         "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
         "space-before-function-paren": ["error", {"anonymous": "always", "named": "never"}],
         "comma-dangle": ["off", {"arrays": "ignore", "objects": "ignore", "imports": "ignore", "exports": "ignore", "functions": "never"}],
-        "standard/no-callback-literal": "off"
+        "standard/no-callback-literal": "off",
     }
 };

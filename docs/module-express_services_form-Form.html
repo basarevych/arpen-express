@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Documentation Class: ExpressSession</title>
+	<title>Documentation Class: Form</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -72,18 +72,18 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Class: ExpressSession</h1>
+	<h1 class="page-title">Class: Form</h1>
 <section>
 
 <header>
     
         <h2>
-            <span class="ancestors"><a href="module-express_services_express-session.html">express/services/express-session</a>~</span>
+            <span class="ancestors"><a href="module-express_services_form.html">express/services/form</a>~</span>
         
-        ExpressSession
+        Form
         </h2>
         
-            <div class="class-description">Express session bridge service</div>
+            <div class="class-description">Form class</div>
         
     
 </header>
@@ -95,7 +95,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="ExpressSession"><span class="type-signature"></span>new ExpressSession(app, config, logger, util, server)</h4>
+    <h4 class="name" id="Form"><span class="type-signature"></span>new Form(i18n, util)</h4>
     
     
 </dt>
@@ -103,7 +103,7 @@
 
     
     <div class="description">
-        Create the service
+        Create service
     </div>
     
 
@@ -138,13 +138,13 @@
 
         <tr>
             
-                <td class="name"><code>app</code></td>
+                <td class="name"><code>i18n</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">App</span>
+<span class="param-type">I18n</span>
 
 
 
@@ -155,55 +155,7 @@
 
             
 
-            <td class="description last">The application</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>config</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Configuration</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>logger</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Logger</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Logger service</td>
+            <td class="description last">I18n Service</td>
         </tr>
 
     
@@ -228,30 +180,6 @@
             
 
             <td class="description last">Util service</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>server</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Server name</td>
         </tr>
 
     
@@ -342,7 +270,7 @@
 <dd>
     
     <div class="description">
-        Service name is 'expressSession'
+        Service name is 'form'
     </div>
     
 
@@ -476,29 +404,18 @@
         
             
 <hr>
-<dt class="name" id="secret">
-    <h4 id="secret"><span class="type-signature"></span>secret<span class="type-signature"> :string</span></h4>
+<dt class="name" id="locale">
+    <h4 id="locale"><span class="type-signature"></span>locale<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Encryption key
+        Locale setter
     </div>
     
 
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">string</span>
-
-
-
-            </li>
-        </ul>
     
 
     
@@ -547,370 +464,15 @@
         
             
 <hr>
-<dt class="name" id="saveInterval">
-    <h4 id="saveInterval"><span class="type-signature"></span>saveInterval<span class="type-signature"> :number</span></h4>
+<dt class="name" id="locale">
+    <h4 id="locale"><span class="type-signature"></span>locale<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Combine and delay write operations, seconds
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">number</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt class="name" id="expirationTimeout">
-    <h4 id="expirationTimeout"><span class="type-signature"></span>expirationTimeout<span class="type-signature"> :number</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        Expiration timeout, seconds
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">number</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt class="name" id="expirationInterval">
-    <h4 id="expirationInterval"><span class="type-signature"></span>expirationInterval<span class="type-signature"> :number</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        Expiration scan interval, seconds
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">number</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt class="name" id="tokenVar">
-    <h4 id="tokenVar"><span class="type-signature"></span>tokenVar<span class="type-signature"> :string</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        Token variable name (cookie)
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">string</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt class="name" id="tokenLength">
-    <h4 id="tokenLength"><span class="type-signature"></span>tokenLength<span class="type-signature"> :number</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        Session token length setter
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">number</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt class="name" id="tokenLength">
-    <h4 id="tokenLength"><span class="type-signature"></span>tokenLength<span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        Session token length getter
+        Locale getter
     </div>
     
 
@@ -969,7 +531,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="create"><span class="type-signature">&lt;async> </span>create(user [, req])</h4>
+    <h4 class="name" id="addMessage"><span class="type-signature"></span>addMessage(type, key [, params])</h4>
     
     
 </dt>
@@ -977,7 +539,7 @@
 
     
     <div class="description">
-        Create session model
+        Add message
     </div>
     
 
@@ -1014,16 +576,13 @@
 
         <tr>
             
-                <td class="name"><code>user</code></td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">UserModel</span>
-|
-
-<span class="param-type">null</span>
+<span class="param-type">string</span>
 
 
 
@@ -1042,20 +601,52 @@
 
             
 
-            <td class="description last">User model or null for anonymous session</td>
+            <td class="description last">'error' or 'info'</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Translation key</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
 
 
 
@@ -1076,7 +667,7 @@
 
             
 
-            <td class="description last">Express request object</td>
+            <td class="description last">Translation parameters</td>
         </tr>
 
     
@@ -1136,30 +727,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Resolves to session model
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -1168,7 +735,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="find"><span class="type-signature">&lt;async> </span>find(token)</h4>
+    <h4 class="name" id="addField"><span class="type-signature"></span>addField(name, value [, options])</h4>
     
     
 </dt>
@@ -1176,7 +743,273 @@
 
     
     <div class="description">
-        Find session model
+        Add field to the form
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Field name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Field value</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Field options
+                <h6 class="method-params-label method-subparams-label">Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>required</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Field is required</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="setField"><span class="type-signature"></span>setField(name, value)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Set field value
     </div>
     
 
@@ -1211,7 +1044,7 @@
 
         <tr>
             
-                <td class="name"><code>token</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
@@ -1228,7 +1061,31 @@
 
             
 
-            <td class="description last">Session token</td>
+            <td class="description last">Field name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Field value</td>
         </tr>
 
     
@@ -1288,30 +1145,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Resolves to session model or null
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -1320,7 +1153,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="save"><span class="type-signature">&lt;async> </span>save(session [, req])</h4>
+    <h4 class="name" id="getField"><span class="type-signature"></span>getField(name)</h4>
     
     
 </dt>
@@ -1328,7 +1161,135 @@
 
     
     <div class="description">
-        Save session model
+        Get field value
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Field name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="addError"><span class="type-signature"></span>addError(name, key [, params])</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Mark field as invalid
     </div>
     
 
@@ -1365,13 +1326,13 @@
 
         <tr>
             
-                <td class="name"><code>session</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">SessionModel</span>
+<span class="param-type">string</span>
 
 
 
@@ -1390,20 +1351,52 @@
 
             
 
-            <td class="description last">Session model</td>
+            <td class="description last">Field name</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Translation key</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
 
 
 
@@ -1424,7 +1417,7 @@
 
             
 
-            <td class="description last">Express request object</td>
+            <td class="description last">Translation parameters</td>
         </tr>
 
     
@@ -1484,26 +1477,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -1512,7 +1485,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="destroy"><span class="type-signature">&lt;async> </span>destroy(session)</h4>
+    <h4 class="name" id="getErrors"><span class="type-signature"></span>getErrors(name)</h4>
     
     
 </dt>
@@ -1520,7 +1493,7 @@
 
     
     <div class="description">
-        Delete session model
+        Get field errors
     </div>
     
 
@@ -1555,13 +1528,13 @@
 
         <tr>
             
-                <td class="name"><code>session</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">SessionModel</span>
+<span class="param-type">string</span>
 
 
 
@@ -1572,7 +1545,7 @@
 
             
 
-            <td class="description last">Session model</td>
+            <td class="description last">Field name</td>
         </tr>
 
     
@@ -1632,26 +1605,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -1660,7 +1613,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="expire"><span class="type-signature">&lt;async> </span>expire()</h4>
+    <h4 class="name" id="toJSON"><span class="type-signature"></span>toJSON()</h4>
     
     
 </dt>
@@ -1668,7 +1621,7 @@
 
     
     <div class="description">
-        Delete expired session models
+        Convert this instance to an object
     </div>
     
 
@@ -1677,154 +1630,6 @@
     
 
     
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="_getInfo"><span class="type-signature"></span>_getInfo(req)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Prepare info object
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Express request data</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
     
 
     
