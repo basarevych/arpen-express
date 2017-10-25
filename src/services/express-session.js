@@ -139,9 +139,10 @@ class ExpressSession {
     /**
      * Find session model
      * @param {string} token                        Session token
+     * @param {*} [req]                             Express request object
      * @return {Promise}                            Resolves to session model or null
      */
-    async find(token) {
+    async find(token, req) {
         if (!this._sessionRepo)
             return null;
 
@@ -155,6 +156,9 @@ class ExpressSession {
             session.user = (users.length && users[0]) || null;
         }
 
+        if (req)
+            session.info = this._getInfo(req);
+
         return session;
     }
 
@@ -165,7 +169,8 @@ class ExpressSession {
      * @return {Promise}
      */
     async save(session, req) {
-        session.info = this._getInfo(req);
+        if (req)
+            session.info = this._getInfo(req);
         session.userId = session.user ? session.user.id : null;
         if (this._sessionRepo)
             await this._sessionRepo.save(session);
